@@ -1,0 +1,13 @@
+﻿/*.responsive-font {
+    font-size: 1.5em;
+}*/
+
+#titulo {
+    border-bottom: 1px solid;
+    border-bottom-color: #CCCCCC;
+    margin-bottom: 20px;
+}
+
+#lkBtnCalcular{
+    margin-right: 2px;
+}

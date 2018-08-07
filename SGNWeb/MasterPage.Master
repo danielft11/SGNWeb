@@ -1,0 +1,85 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="SGNWeb.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="Content/bootstrap.css" rel="stylesheet"/>
+    <link href="Content/padrao.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <title>SGN Web</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="pull-left" href="#">
+                            <img src="images/logo_sgn2.png" /></a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-left">
+                            <%--<li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>--%>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="clientes.aspx">Clientes</a></li>
+                                    <li><a href="equipamentos.aspx">Equipamentos</a></li>
+                                    <li><a href="servicos.aspx">Serviços</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Processos<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="ordemServicoInclusao.aspx">Ordens de Serviço - OS</a></li>
+                                    <li><a href="#">Orçamentos</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Equipamentos </a></li>
+                                    <li><a href="#">Clientes - Sintético </a></li>
+                                    <li><a href="#">Clientes - Analítico </a></li>
+                                    <li><a href="#">Ocorrências </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Login</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container -->
+            </nav>
+        </header>
+        <section class="container-fluid" style="margin-top: 60px">
+            <div class="row">
+                <div class="col-md-12">
+                    <asp:ContentPlaceHolder ID="CPlaceHolderPrincipal" runat="server"></asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="text-center">SGN WEB versão 1.001 - Todos os direitos reservados</h5>
+                    <p class="text-center">Desenvolvido por: Daniel Fernando Teixeira</p>
+                </div>
+            </div>
+        </section>
+    </form>
+</body>
+</html>

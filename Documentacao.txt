@@ -1,0 +1,150 @@
+//Referencias:
+//https://msdn.microsoft.com/pt-br/library/system.data.sqlclient.sqlcommand.parameters(v=vs.110).aspx
+//https://msdn.microsoft.com/pt-br/library/system.data.sqlclient.sqldataadapter.updatecommand(v=vs.110).aspx
+
+public void AtualizarCliente(int IdCliente, string Nome)
+{
+	AbrirConexao();
+
+    Cmd = new SqlCommand(SQLUpdate, Con);
+    Cmd.Parameters.Add("@IdCliente", SqlDbType.Int);
+    Cmd.Parameters["@IdCliente"].Value = IdCliente;
+    Cmd.Parameters.AddWithValue("@Nome", Nome);
+    Cmd.ExecuteNonQuery();
+}
+
+
+//Criar função Javascript dentro do Server-Side (Code-Behind)
+protected void btnNovo_Click(object sender, EventArgs e)
+{
+    Type csType = GetType();
+    string csName = "btnNovoClickScript";
+    ClientScriptManager csManager = Page.ClientScript;
+    StringBuilder jscript = new StringBuilder();
+    jscript.Append("<script language='JavaScript' type='text/javascript'>");
+    jscript.Append("window.open('cadastroClientes.aspx', 'Cadastro de Clientes', 'titlebar=no, menubar=no, toolbar=no')");
+    jscript.Append("</script>");
+    csManager.RegisterClientScriptBlock(csType, csName, jscript.ToString());
+}
+
+//Chamar função Javascript dentro do Server-Side (Code-Behind)
+/Neste caso, a função Javascript deve estar previamente criada no Client-Side.
+
+/ Página ListaClientes.aspx
+
+<script type="text/javascript">
+    function sendValues(ID, Nome) {
+        window.opener.document.forms.form1.txtIDCliente.value = ID;
+        window.opener.document.forms.form1.txtNomeCliente.value = Nome;
+        window.close();
+    }
+</script>
+
+/Code-behind da página ListaClientes.aspx
+
+if (e.CommandName.Equals("Selecionar"))
+    {
+        int Index = Convert.ToInt32(e.CommandArgument);
+        int ID = Convert.ToInt32(GVClientes.DataKeys[Index].Value.ToString());
+        string Nome = GVClientes.Rows[Index].Cells[2].Text;
+
+        string s = "sendValues('" + ID + "','" + Nome + "');";
+        ClientScript.RegisterStartupScript(this.GetType(), "Alert", s, true);
+        }
+	}
+
+	/Forma padrão
+	<script type="text/javascript">
+    function sendValue() {
+        window.opener.document.forms.form1.txtIDCliente.value = document.getElementById('txtID').value;
+        window.opener.document.forms.form1.txtNomeCliente.value = document.getElementById('txtNome').value;
+        window.close();
+    }
+</script>
+
+protected void btnEditar_Click(object sender, EventArgs e)
+    {
+        Button btnEditar = (Button)sender; //Resgata o próprio objeto e converte para ele mesmo.
+        TableCell cell = new TableCell(); //Cria um objeto do tipo TableCell.
+        cell = (TableCell)btnEditar.Parent; //Resgata a célula da tabela do gridview onde esta localizado o controle Button.
+        GridViewRow row = (GridViewRow)cell.Parent; //Resgata a linha do gridview onde esta localizado o controle Button.
+        int Linha = row.RowIndex; //Resgata o indice da linha selecionada.
+        string valor = GridView1.Rows[Linha].Cells[0].Text;
+        int IdCliente = int.Parse(valor);
+
+        Session["IdentificadoId"] = IdCliente;
+        Response.Redirect("alteracaoClientes.aspx");
+
+        //Documentação:
+        //http://fernandosanchesarce.blogspot.com.br/2011/03/resgatando-indice-da-linha-seleciona.html
+        //http://andretoniate.blogspot.com.br/2011/12/pegando-o-valor-de-uma-celula-em-uma.html
+}
+
+public void Alerta(string excessao)
+{
+        string script = string.Format("alert('Na tentativa de cadastro ocorreu seguinte erro: {0}. Contate o administrador do sistema.');", excessao);
+        Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "alert", script, true);
+}
+
+Response.Write("<script>alert('Falha ao cadastrar este cliente. Contate o administrador do sistema.');</script>");
+
+//Comunicação Jquery Server-Side x Client Side
+/
+// Server-Side Code-Behind C#:
+/   catch (Exception ex)
+/   {
+/    string strTitulo = "Erro durante o cadastro. Veja os detalhes e contate o administrador do sistema:";
+/    string strTexto = ex.Message;
+/    ClientScript.RegisterStartupScript(GetType(), "alert", "ShowModal('"+strTitulo+"','"+strTexto+ "')", true);
+/   }
+/
+// Client-Side (dentro da tag Header)
+/ <script type="text/javascript">
+/  function ShowModal(titulo, detalhes) {
+/    $("#myModal").modal('show');
+/    $('.modal-title').text(titulo);
+/    $('.modal-body').text(detalhes);
+/  }
+/ </script>
+
+        protected void GVClientes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName.Equals("Selecionar"))
+            {
+                int Index = Convert.ToInt32(e.CommandArgument);
+                int ID = Convert.ToInt32(GVClientes.DataKeys[Index].Value.ToString());
+                string Nome = GVClientes.Rows[Index].Cells[2].Text;
+
+                Type csType = GetType();
+                string csName = "btnNovoClickScript";
+                ClientScriptManager csManager = Page.ClientScript;
+                StringBuilder jscript = new StringBuilder();
+                jscript.Append("<script type='text/javascript'>");
+                jscript.Append("window.opener.forms.form1.txtIdCliente.value = document.getElementById('2').value;");
+                jscript.Append("window.close()");
+                jscript.Append("</script>");
+                csManager.RegisterClientScriptBlock(csType, csName, jscript.ToString());
+            }
+        }
+
+/Como remover o caractere &nbsp
+string noHTML = Regex.Replace(inputHTML, @"<[^>]+>|&nbsp;", "").Trim();
+
+/string Telefone = GVClientesLCliOS.Rows[Index].Cells[4].Text;
+/string sTelefone = Regex.Replace(Telefone, @"<[^>]+>|&nbsp;", "").Trim();
+
+/string Telefone = Regex.Replace(GVClientesLCliOS.Rows[Index].Cells[4].Text, @"<[^>]+>|&nbsp;", "").Trim();
+/string Celular  = Regex.Replace(GVClientesLCliOS.Rows[Index].Cells[5].Text, @"<[^>]+>|&nbsp;", "").Trim(); 
+/string Email    = Regex.Replace(GVClientesLCliOS.Rows[Index].Cells[6].Text, @"<[^>]+>|&nbsp;", "").Trim(); 
+
+//Ler dados de uma row.
+/GridViewRow gvrow = GridView1.Rows[index];
+/txtName.Text = HttpUtility.HtmlDecode(gvrow.Cells[4].Text);
+
+//Ler dados diretamente do DataTable
+/int code = int.Parse(GridServicos.DataKeys[index].Value.ToString());
+/DtServicos = SrvDAL.Detalhes(code);
+/txtDescServico.Text = DtServicos.Rows[0]["Descricao"].ToString();
+
+<%--OnClientClick="window.open('ListaClientesOS.aspx', 'width=600', '_parent')--%>
+
