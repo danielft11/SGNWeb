@@ -3,6 +3,7 @@ using System.Data;
 using System.Web.UI.WebControls;
 using DAL;
 using System.Web.UI;
+using System.Text;
 
 namespace SGNWeb
 {
@@ -90,7 +91,7 @@ namespace SGNWeb
                 DtViewServicos.DataSource = DtServicos;
                 DtViewServicos.DataBind();
 
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append(@"<script type='text/javascript'>");
                 sb.Append("$('#detailModal').modal('show');");
                 sb.Append(@"</script>");

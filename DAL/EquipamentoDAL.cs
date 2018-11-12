@@ -97,7 +97,10 @@ namespace DAL
 
         public DataTable Detalhes(int IdEquipamento)
         {
-            SQLSelect = "SELECT Equipamentos.IdEquipamento, TipoEquipto.Nome AS Tipo, Equipamentos.Marca, Equipamentos.Modelo, Equipamentos.NumSerie, Equipamentos.IdTipo, TipoEquipto.Nome AS Tipo, Equipamentos.Cliente AS CodCliente, Clientes.Nome AS NomeCliente, DataCadastro, Equipamentos.Descricao FROM Equipamentos  INNER JOIN Clientes ON Equipamentos.Cliente = Clientes.IdCliente INNER JOIN TipoEquipto ON Equipamentos.IdTipo = TipoEquipto.IdTipoEquipto AND IdEquipamento = @IdEquipamento";
+            SQLSelect = "SELECT Equipamentos.IdEquipamento AS IdEquipamento, TipoEquipto.Nome AS Tipo, Equipamentos.Marca AS Marca," + 
+                        "Equipamentos.Modelo AS Modelo, Equipamentos.NumSerie AS NumSerie, Clientes.Nome AS NomeCliente, DataCadastro, Equipamentos.Descricao AS Descricao " +
+                        "FROM Equipamentos  INNER JOIN Clientes ON Equipamentos.Cliente = Clientes.IdCliente "+
+                        "INNER JOIN TipoEquipto ON Equipamentos.IdTipo = TipoEquipto.IdTipoEquipto AND IdEquipamento = @IdEquipamento";
 
             try
             {

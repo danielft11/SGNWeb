@@ -2,6 +2,8 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DAL;
+using System.Data;
+using System.Text;
 
 namespace SGNWeb
 {
@@ -26,50 +28,71 @@ namespace SGNWeb
             GVEquipamentos.DataBind();
         }
 
-        protected void btnDetalhesEquipamentos_Click(object sender, EventArgs e)
+        protected void GVEquipamentos_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            Button btnDetalhes = (Button)sender;
-            TableCell cell = new TableCell();
-            cell = (TableCell)btnDetalhes.Parent; 
-            GridViewRow row = (GridViewRow)cell.Parent; 
-            int Linha = row.RowIndex;
-            string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-            int IdEquipamento = int.Parse(valor);
+            int index = Convert.ToInt32(e.CommandArgument);
+            DataTable DtEquipamentos = new DataTable();
 
-            Session["SessionIDEquipto"] = IdEquipamento;
+            if (e.CommandName.Equals("detail"))
+            {
+                int code = int.Parse(GVEquipamentos.DataKeys[index].Value.ToString());
+                DtEquipamentos = EqDal.Detalhes(code);
 
-            string script = "window.open('detalhesEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
-            ClientScript.RegisterStartupScript(this.GetType(), "Alert", script, true);
+                DtViewEquipamentos.DataSource = DtEquipamentos;
+                DtViewEquipamentos.DataBind();
+
+                StringBuilder eq = new StringBuilder();
+                eq.Append(@"<script type='text/javascript'>");
+                eq.Append("$('#ModalDetalhesEquipamentos').modal('show');");
+                eq.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "ModalDetalhesEquipamentosScript", eq.ToString(), false);
+            }
         }
 
-        protected void btnEditarEquipamentos_Click(object sender, EventArgs e)
-        {
-            Button btnDetalhes = (Button)sender;
-            TableCell cell = new TableCell();
-            cell = (TableCell)btnDetalhes.Parent;
-            GridViewRow row = (GridViewRow)cell.Parent;
-            int Linha = row.RowIndex;
-            string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-            int IdEquipamento = int.Parse(valor);
+        //protected void btnDetalhesEquipamentos_Click(object sender, EventArgs e)
+        //{
+        //    Button btnDetalhes = (Button)sender;
+        //    TableCell cell = new TableCell();
+        //    cell = (TableCell)btnDetalhes.Parent; 
+        //    GridViewRow row = (GridViewRow)cell.Parent; 
+        //    int Linha = row.RowIndex;
+        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
+        //    int IdEquipamento = int.Parse(valor);
 
-            Session["SessionIDEquipto"] = IdEquipamento;
+        //    Session["SessionIDEquipto"] = IdEquipamento;
 
-            string script = "window.open('alteracaoEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
-            ClientScript.RegisterStartupScript(GetType(), "Alert", script, true);
-        }
+        //    string script = "window.open('detalhesEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
+        //    ClientScript.RegisterStartupScript(this.GetType(), "Alert", script, true);
+        //}
 
-        protected void btnExcluirEquipamentos_Click(object sender, EventArgs e)
-        {
-            Button btnExcluir = (Button)sender; 
-            TableCell cell = new TableCell(); 
-            cell = (TableCell)btnExcluir.Parent; 
-            GridViewRow row = (GridViewRow)cell.Parent;
-            int Linha = row.RowIndex;
-            string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-            int IdEquipto = int.Parse(valor);
+        //protected void btnEditarEquipamentos_Click(object sender, EventArgs e)
+        //{
+        //    Button btnDetalhes = (Button)sender;
+        //    TableCell cell = new TableCell();
+        //    cell = (TableCell)btnDetalhes.Parent;
+        //    GridViewRow row = (GridViewRow)cell.Parent;
+        //    int Linha = row.RowIndex;
+        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
+        //    int IdEquipamento = int.Parse(valor);
 
-            EqDal.ExcluirEquipto(IdEquipto);
-        }
+        //    Session["SessionIDEquipto"] = IdEquipamento;
+
+        //    string script = "window.open('alteracaoEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
+        //    ClientScript.RegisterStartupScript(GetType(), "Alert", script, true);
+        //}
+
+        //protected void btnExcluirEquipamentos_Click(object sender, EventArgs e)
+        //{
+        //    Button btnExcluir = (Button)sender; 
+        //    TableCell cell = new TableCell(); 
+        //    cell = (TableCell)btnExcluir.Parent; 
+        //    GridViewRow row = (GridViewRow)cell.Parent;
+        //    int Linha = row.RowIndex;
+        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
+        //    int IdEquipto = int.Parse(valor);
+
+        //    EqDal.ExcluirEquipto(IdEquipto);
+        //}
 
         protected void btnFiltroEquipto_Click(object sender, EventArgs e)
         {
@@ -118,5 +141,7 @@ namespace SGNWeb
             GVEquipamentos.DataSource = EqDal.Listar();
             GVEquipamentos.DataBind();
         }
+
+
     }
 }

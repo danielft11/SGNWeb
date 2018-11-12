@@ -44,12 +44,17 @@
             <div class="col-md-12 col-sm-12 table-responsive" style="display:block;">
                 <asp:UpdatePanel ID="UpdPanelServicos" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="GridServicos" runat="server" OnRowCommand="GridServicos_RowCommand"
+                        <asp:GridView ID="GridServicos" 
+                            runat="server" 
+                            OnRowCommand="GridServicos_RowCommand"
                             AutoGenerateColumns="false" 
-                            AllowPaging="true" DataKeyNames="IdServico" 
-                            CssClass="table table-striped" GridLines="None" 
+                            AllowPaging="true" 
+                            DataKeyNames="IdServico" 
+                            CssClass="table table-striped" 
+                            GridLines="None" 
                             PageSize="12" 
                             OnPageIndexChanging="GridServicos_PageIndexChanging">
+
                             <Columns>
                                 <asp:BoundField DataField="IdServico" HeaderText="ID" ReadOnly="True" HeaderStyle-Wrap="False" ItemStyle-Wrap="False">
                                     <HeaderStyle Wrap="False" BackColor="#666666" ForeColor="White" />
@@ -73,7 +78,7 @@
 
                                 <asp:ButtonField CommandName="detail" ButtonType="Button" Text="Detalhes" HeaderText="Detalhes" 
                                     ControlStyle-CssClass="btn btn-info btn-xs">
-                                    <HeaderStyle Wrap="False" BackColor="#666666" ForeColor="White" Width="20px" />
+                                    <HeaderStyle Wrap="False" BackColor="#666666" ForeColor="White" Width="20px"/>
                                 </asp:ButtonField>
 
                                 <asp:ButtonField CommandName="editRecord" ButtonType="Button" Text="Editar" HeaderText="Editar"
@@ -105,9 +110,17 @@
                             <div class="modal-body">
                                 <asp:UpdatePanel ID="UpdPanelDetalhes" runat="server">
                                     <ContentTemplate>
-                                        <asp:DetailsView ID="DtViewServicos" runat="server" CssClass="table table-bordered table-hover" BackColor="White" 
-                                            ForeColor="Black" FieldHeaderStyle-Wrap="false" FieldHeaderStyle-Font-Bold="true" FieldHeaderStyle-BackColor="#99ccff" 
-                                            FieldHeaderStyle-ForeColor="Black" BorderStyle="Groove" AutoGenerateRows="False">
+                                        <asp:DetailsView ID="DtViewServicos" 
+                                            runat="server" 
+                                            CssClass="table table-bordered table-hover" 
+                                            BackColor="White" 
+                                            ForeColor="Black" 
+                                            FieldHeaderStyle-Wrap="false" 
+                                            FieldHeaderStyle-Font-Bold="true" 
+                                            FieldHeaderStyle-BackColor="#99ccff" 
+                                            FieldHeaderStyle-ForeColor="Black" 
+                                            BorderStyle="Groove" 
+                                            AutoGenerateRows="False">
                                             <Fields>
                                                 <asp:BoundField DataField="IdServico" HeaderText="ID" />
                                                 <asp:BoundField DataField="Codigo" HeaderText="Código" />
