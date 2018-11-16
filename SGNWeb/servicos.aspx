@@ -52,7 +52,7 @@
                             DataKeyNames="IdServico" 
                             CssClass="table table-striped" 
                             GridLines="None" 
-                            PageSize="12" 
+                            PageSize="20" 
                             OnPageIndexChanging="GridServicos_PageIndexChanging">
 
                             <Columns>

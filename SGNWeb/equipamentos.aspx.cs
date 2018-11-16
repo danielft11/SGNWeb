@@ -47,52 +47,111 @@ namespace SGNWeb
                 eq.Append(@"</script>");
                 ScriptManager.RegisterClientScriptBlock(this, GetType(), "ModalDetalhesEquipamentosScript", eq.ToString(), false);
             }
+            else if (e.CommandName.Equals("editRecord"))
+            {
+                int code = int.Parse(GVEquipamentos.DataKeys[index].Value.ToString());
+                DtEquipamentos = EqDal.Detalhes(code);
+
+                //txtIdSrv.Text = DtServicos.Rows[0]["IdServico"].ToString();
+                txtIdEquipamento.Text = DtEquipamentos.Rows[0]["IdEquipamento"].ToString();
+                txtTipo.Text = DtEquipamentos.Rows[0]["Tipo"].ToString();
+                txtMarca.Text = DtEquipamentos.Rows[0]["Marca"].ToString();
+                txtModelo.Text = DtEquipamentos.Rows[0]["Modelo"].ToString(); ;
+                txtNumSerie.Text = DtEquipamentos.Rows[0]["NumSerie"].ToString();
+                txtNomeCliente.Text = DtEquipamentos.Rows[0]["NomeCliente"].ToString();
+                txtDataCadastro.Text = DtEquipamentos.Rows[0]["DataCadastro"].ToString().Substring(0, 10);
+                txtDescricao.Text = DtEquipamentos.Rows[0]["Descricao"].ToString();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#ModalEditEquipamentos').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalScript", sb.ToString(), false);
+            }
+            else if (e.CommandName.Equals("deleteRecord"))
+            {
+                int code = int.Parse(GVEquipamentos.DataKeys[index].Value.ToString());
+                HfCode.Value = code.ToString();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#ModalDeleteEquipamentos').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteModalScript", sb.ToString(), false);
+            }
         }
 
-        //protected void btnDetalhesEquipamentos_Click(object sender, EventArgs e)
-        //{
-        //    Button btnDetalhes = (Button)sender;
-        //    TableCell cell = new TableCell();
-        //    cell = (TableCell)btnDetalhes.Parent; 
-        //    GridViewRow row = (GridViewRow)cell.Parent; 
-        //    int Linha = row.RowIndex;
-        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-        //    int IdEquipamento = int.Parse(valor);
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            int IdEquipamento = int.Parse(txtIdEquipamento.Text);
+            string Marca = txtMarca.Text;
+            string Modelo = txtModelo.Text;
+            string NumSerie = txtNumSerie.Text;
+            string sDataCadastro = txtDataCadastro.Text;
+            DateTime DataCadastro;
+            string Descricao = txtDescricao.Text;
 
-        //    Session["SessionIDEquipto"] = IdEquipamento;
+            if (sDataCadastro == ""){
+                DataCadastro = DateTime.Now;
+            } else {
+                sDataCadastro += " 00:00:00";
+                DataCadastro = Convert.ToDateTime(sDataCadastro);
+            }
 
-        //    string script = "window.open('detalhesEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
-        //    ClientScript.RegisterStartupScript(this.GetType(), "Alert", script, true);
-        //}
+            try
+            {
+                EqDal.AtualizarEquipto(IdEquipamento, Marca, Modelo, NumSerie, DataCadastro, Descricao);
 
-        //protected void btnEditarEquipamentos_Click(object sender, EventArgs e)
-        //{
-        //    Button btnDetalhes = (Button)sender;
-        //    TableCell cell = new TableCell();
-        //    cell = (TableCell)btnDetalhes.Parent;
-        //    GridViewRow row = (GridViewRow)cell.Parent;
-        //    int Linha = row.RowIndex;
-        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-        //    int IdEquipamento = int.Parse(valor);
+                GVEquipamentos.DataSource = EqDal.Listar();
+                GVEquipamentos.DataBind();
 
-        //    Session["SessionIDEquipto"] = IdEquipamento;
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("alert('Equipamento alterado com sucesso!');");
+                sb.Append("$('#ModalEditEquipamentos').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "AddHideModalScript", sb.ToString(), false);
+            }
+            catch (Exception ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("alert('Ao tentar alterar o registro ocorreu o seguinte erro:'" + ex.Message + "'. Contate o administrador do sistema.');");
+                sb.Append("$('#ModalEditEquipamentos').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "AddHideModalScript", sb.ToString(), false);
+            }
+        }
 
-        //    string script = "window.open('alteracaoEquipamentos.aspx', 'detalhes do Equipamento', 'toolbar=no, width=900, height=420, top=200, left=250', '_parent')";
-        //    ClientScript.RegisterStartupScript(GetType(), "Alert", script, true);
-        //}
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            int iCode = int.Parse(HfCode.Value);
 
-        //protected void btnExcluirEquipamentos_Click(object sender, EventArgs e)
-        //{
-        //    Button btnExcluir = (Button)sender; 
-        //    TableCell cell = new TableCell(); 
-        //    cell = (TableCell)btnExcluir.Parent; 
-        //    GridViewRow row = (GridViewRow)cell.Parent;
-        //    int Linha = row.RowIndex;
-        //    string valor = GVEquipamentos.Rows[Linha].Cells[0].Text;
-        //    int IdEquipto = int.Parse(valor);
+            try
+            {
+                EqDal.ExcluirEquipto(iCode);
 
-        //    EqDal.ExcluirEquipto(IdEquipto);
-        //}
+                GVEquipamentos.DataSource = EqDal.Listar();
+                GVEquipamentos.DataBind();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("alert('Registro do serviço excluído com sucesso.');");
+                sb.Append("$('#ModalDeleteEquipamentos').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "delHideModalScript", sb.ToString(), false);
+            }
+            catch (Exception ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("alert('Ao tentar excluir o registro ocorreu o seguinte erro: '" + ex.Message + "'. Contate o administrador do sistema.');");
+                sb.Append("$('#ModalDeleteEquipamentos').modal('hide');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "AddHideModalScript", sb.ToString(), false);
+            }
+
+        }
 
         protected void btnFiltroEquipto_Click(object sender, EventArgs e)
         {
@@ -141,7 +200,5 @@ namespace SGNWeb
             GVEquipamentos.DataSource = EqDal.Listar();
             GVEquipamentos.DataBind();
         }
-
-
     }
 }

@@ -70,11 +70,15 @@ namespace DAL
             FecharConexao();
         }
 
-        public void AtualizarEquipto(int IdEquipamento, string Descricao)
+        public void AtualizarEquipto(int IdEquipamento, string Marca, string Modelo, string NumSerie, DateTime DataCadastro, string Descricao)
         {
             AbrirConexao();
-            Cmd = new SqlCommand("UPDATE Equipamentos SET Descricao = @Descricao WHERE IdEquipamento = @IdEquipamento",Con);
+            Cmd = new SqlCommand("UPDATE Equipamentos SET Marca = @Marca, Modelo = @Modelo, NumSerie = @NumSerie, DataCadastro = @DataCadastro, Descricao = @Descricao WHERE IdEquipamento = @IdEquipamento", Con);
 
+            Cmd.Parameters.AddWithValue("@Marca", Marca);
+            Cmd.Parameters.AddWithValue("@Modelo", Modelo);
+            Cmd.Parameters.AddWithValue("@NumSerie", NumSerie);
+            Cmd.Parameters.AddWithValue("@DataCadastro", DataCadastro);
             Cmd.Parameters.AddWithValue("@Descricao", Descricao);
             Cmd.Parameters.AddWithValue("@IdEquipamento", IdEquipamento);
 

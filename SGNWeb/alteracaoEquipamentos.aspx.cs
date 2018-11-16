@@ -33,7 +33,7 @@ namespace SGNWeb
             {
                 int IDEquipto = Convert.ToInt32(Session["SessionIDEquipto"]);
                 string sDescricao = txtDescricaoFrmAltEq.Text;
-                EqDal.AtualizarEquipto(IDEquipto, sDescricao);
+                //EqDal.AtualizarEquipto(IDEquipto, sDescricao);
                 string strTitulo = "O equipamento abaixo foi atualizado com sucesso!";
                 string strTexto = "Marca: " + txtMarcaFrmAltEq.Text + ", Modelo: " + txtModeloFrmAltEq.Text + ".";
                 ClientScript.RegisterStartupScript(GetType(), "alert", "ShowModal('" + strTitulo + "','" + strTexto + "')", true);
