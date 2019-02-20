@@ -4,12 +4,15 @@ using System.Web.UI.WebControls;
 using DAL;
 using System.Web.UI;
 using System.Text;
+using System.Collections.Generic;
+using Model;
+using System.Collections;
 
 namespace SGNWeb
 {
     public partial class servicos : System.Web.UI.Page
     {
-
+        
         ServicosDAL SrvDAL = new ServicosDAL();
 
         protected void Page_Load(object sender, EventArgs e)

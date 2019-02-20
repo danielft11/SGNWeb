@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="cadastroClientes.aspx.cs" Inherits="SGNWeb.cadastroClientes" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,8 +32,6 @@
             $("#txtTel2").mask("9999-9999");
             $("#txtCelular").mask("99999-9999");
             $("#txtCel2").mask("99999-9999");
-            $("#txtDataNascimento").mask("99/99/9999");
-            $("#txtClienteDesde").mask("99/99/9999");
             $("#txtDDD").mask("999");
         });
     </script>
@@ -43,6 +43,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManagerCadClientes" runat="server" EnableScriptLocalization="True" EnableScriptGlobalization="True"></asp:ScriptManager>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 col-sm-12" style="background-color:black">
@@ -191,12 +192,14 @@
                     <div class="form-group">
                         <label class="control-label" for="txtDataNascimento">Nascimento</label>
                         <asp:TextBox ID="txtDataNascimento" runat="server" CssClass="form-control" MaxLength="8"></asp:TextBox>
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="txtDataNascimento" />
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-2">
                     <div class="form-group">
                         <label class="control-label" for="txtClienteDesde">Cliente Desde</label>
                         <asp:TextBox ID="txtClienteDesde" runat="server" CssClass="form-control" MaxLength="8"></asp:TextBox>
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtClienteDesde" />
                     </div>
                 </div>
             </div> <%--Linha E-mail e datas--%>

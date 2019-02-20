@@ -48,9 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit, Version=15.1.4.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Documents\ASP.NET AJAX Control Toolkit\Bin\AjaxControlToolkit.dll</HintPath>
+    <Reference Include="AjaxControlToolkit, Version=18.1.1.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.18.1.1\lib\net40\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="alteracaoClientes.aspx" />
-    <Content Include="alteracaoEquipamentos.aspx" />
     <Content Include="cadastroClientes.aspx" />
     <Content Include="cadastroEquipamentos.aspx" />
     <Content Include="cadastroServicos.aspx" />
@@ -84,7 +83,6 @@
     <Content Include="Content\jquery.maxlength.css" />
     <Content Include="Content\padrao.css" />
     <Content Include="detalhesClientes.aspx" />
-    <Content Include="detalhesEquipamentos.aspx" />
     <Content Include="equipamentos.aspx" />
     <Content Include="fonts\packages.config" />
     <Content Include="ListaClientes.aspx" />
@@ -151,13 +149,6 @@
     <Compile Include="alteracaoClientes.aspx.designer.cs">
       <DependentUpon>alteracaoClientes.aspx</DependentUpon>
     </Compile>
-    <Compile Include="alteracaoEquipamentos.aspx.cs">
-      <DependentUpon>alteracaoEquipamentos.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="alteracaoEquipamentos.aspx.designer.cs">
-      <DependentUpon>alteracaoEquipamentos.aspx</DependentUpon>
-    </Compile>
     <Compile Include="cadastroClientes.aspx.cs">
       <DependentUpon>cadastroClientes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -192,13 +183,6 @@
     </Compile>
     <Compile Include="detalhesClientes.aspx.designer.cs">
       <DependentUpon>detalhesClientes.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="detalhesEquipamentos.aspx.cs">
-      <DependentUpon>detalhesEquipamentos.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="detalhesEquipamentos.aspx.designer.cs">
-      <DependentUpon>detalhesEquipamentos.aspx</DependentUpon>
     </Compile>
     <Compile Include="equipamentos.aspx.cs">
       <DependentUpon>equipamentos.aspx</DependentUpon>
@@ -262,6 +246,10 @@
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{843f335d-778c-4698-b4fd-b763657961e6}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{23857643-d36f-4160-b112-58f4b23c190d}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -56,26 +56,20 @@ namespace SGNWeb
             string strCel2 = txtCel2.Text; /*.Replace("-", string.Empty);*/
             string strEmail = txtEmail.Text;
             string strEmail2 = txtEmail2.Text;
-            string strDataNascimento = txtDataNascimento.Text;
-            string strClienteDesde = txtClienteDesde.Text;
+            string strObservacoes = txtObservacoes.Text;
             DateTime dtDataNascimento;
             DateTime dtClienteDesde;
-            string strObservacoes = txtObservacoes.Text;
-            
-            if (strDataNascimento == "") { dtDataNascimento = DateTime.Now; }
-            else
-            {
-                strDataNascimento += " 00:00:00";
-                dtDataNascimento = Convert.ToDateTime(strDataNascimento);
-            }
 
-            if (strClienteDesde == "") { dtClienteDesde = DateTime.Now; }
+            if (!string.IsNullOrEmpty(txtDataNascimento.Text))
+                dtDataNascimento = Convert.ToDateTime(txtDataNascimento.Text);
             else
-            {
-                strClienteDesde += " 00:00:00";
-                dtClienteDesde = Convert.ToDateTime(strClienteDesde);
-            }
+                dtDataNascimento = DateTime.Now;
 
+            if (!string.IsNullOrEmpty(txtClienteDesde.Text))
+                dtClienteDesde = Convert.ToDateTime(txtClienteDesde.Text);
+            else
+                dtClienteDesde = DateTime.Now;
+   
             if (Page.IsPostBack && Page.IsValid)
             {
                 if (rbTipoCliente.SelectedValue == "F")
